@@ -20,6 +20,7 @@ import {
   View,
 } from 'react-native';
 import axios from 'axios';
+import CheckBox from '@react-native-community/checkbox';
 
 const SignUpTemplate = {
   name: {value: '', error: ''},
@@ -32,6 +33,8 @@ const SignUpTemplate = {
 const App = () => {
   const [signUpForm, setSignUpForm] = useState({...SignUpTemplate}); //destructuring by spread operator
   const [loading, setLoading] = useState(false);
+  // const [isSelected, setSelection] = useState(false);
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const handleFormError = (key: string, value: string) => {
     let error = '';
@@ -62,19 +65,6 @@ const App = () => {
 
   const handleForm = (key: string, value: string) => {
     let currentSignUpForm: any = {...signUpForm};
-
-    // First way to update state
-    // if (key === 'name'){
-    //  currentSignUpForm.name = value;
-    // }else if (key === 'email'){
-    //   currentSignUpForm.email = value;
-    // }else if (key === 'phone'){
-    //   currentSignUpForm.phone = value;
-    // }else if (key === 'password'){
-    //   currentSignUpForm.password = value;
-    // }else if (key === 'confirmPassword'){
-    //   currentSignUpForm.confirmPassword = value;
-    // }
 
     // Second way to update state
     currentSignUpForm[key]['value'] = value;
@@ -192,13 +182,42 @@ const App = () => {
             <Text style={styles.error}>{signUpForm.confirmPassword.error}</Text>
           </View>
 
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingHorizontal:14
+            }}>
+            <View>
+              <CheckBox
+                boxType={'square'}
+                onCheckColor={'white'}
+                onFillColor={'#eb8b46'}
+                onTintColor={'#eb8b46'}
+                lineWidth={1}
+                animationDuration={0.2}
+                disabled={false}
+                value={toggleCheckBox}
+                onValueChange={newValue => setToggleCheckBox(newValue)}
+              />
+            </View>
+            <View style={{marginLeft:5}}>
+              <Text style={{fontSize:12}}>
+                By creating an account you agreed the <Text style={{color:'#eb8b46',textDecorationLine:'underline'}}>Terms & Condition</Text> of
+                NaWee
+              </Text>
+            </View>
+          </View>
+
           <View style={styles.btnView}>
             <TouchableOpacity
               style={styles.btnContainer}
               onPress={handleSubmit}>
               <Text style={{color: 'white', display: 'flex'}}>Submit</Text>
             </TouchableOpacity>
-           
+            {/* <Button title="Submit" onPress={handleSubmit}/> */}
           </View>
         </View>
       )}
